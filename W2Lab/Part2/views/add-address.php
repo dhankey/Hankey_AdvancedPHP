@@ -8,83 +8,73 @@
     <body>
         <?php
 
-        require_once '../functions/dbcon.php';
-        require_once '../functions/util.php';
+        require_once '../models/DB.php';
+        require_once '../models/IDAO.php';
+        require_once '../models/CRUD.php';
+        require_once '../models/Validation.php';
+        require_once '../models/Util.php';
+
+        $addCRUD = new CRUD();
+        $validator = new Validation();
+        $util = new Util();
         
         // Post Variables
-        $name = filter_input(INPUT_POST, 'name');
-        $email = filter_input(INPUT_POST, 'email');
-        $address = filter_input(INPUT_POST, 'address');
-        $city = filter_input(INPUT_POST, 'city');
-        $state = filter_input(INPUT_POST, 'state');
-        $zip = filter_input(INPUT_POST, 'zip');
-        $dob = filter_input(INPUT_POST, 'dob');
+        $values = filter_input_array(INPUT_POST);
 
-        // Regex Varaibles
-        $basicRegex = '/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/';
-        $zipRegex = '/^\d{5}(?:[-\s]\d{4})?$/';
-        $emailRegex = '/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/';
-
-        if(isPostRequest()) 
+        if($util->isPostRequest()) 
         {    
             $message = array();
 
             // Checking if empty and valid      
-            if(empty($name)) 
+            if($validator->valueIsEmpty($values['name'])) 
             {
                 array_push($message,'Sorry name is empty');
             } 
-            elseif(!preg_match($basicRegex, $name))
+            elseif(!$validator->valueIsValid($values['name']))
             {
                 array_push($message,'Sorry name is not valid');
             }
 
-            if (empty($email)) 
+            if ($validator->valueIsEmpty($values['email']))
             {
                 array_push($message,'Sorry email is empty');
             }
-            elseif(!preg_match($emailRegex, $email))
+            elseif(!$validator->emailIsValid($values['email']))
             {
                 array_push($message,'Sorry email is not valid');
             }
 
-            if (empty($address)) 
+            if ($validator->valueIsEmpty($values['address'])) 
             {
                 array_push($message,'Sorry address is empty');
             }
-            elseif(!preg_match($basicRegex, $address))
+            elseif(!$validator->valueIsValid($values['address']))
             {
                 array_push($message,'Sorry address is not valid');
             }
 
-            if (empty($city)) 
+            if ($validator->valueIsEmpty($values['city'])) 
             {
                 array_push($message,'Sorry city is empty');
             }
-            elseif(!preg_match($basicRegex, $city))
+            elseif(!$validator->valueIsValid($values['city']))
             {
                 array_push($message,'Sorry city is not valid');
             }
 
-            if (empty($zip)) 
+            if ($validator->valueIsEmpty($values['zip'])) 
             {
                 array_push($message,'Sorry zip is empty');
             }
-            elseif(!preg_match($zipRegex, $zip))
+            elseif(!$validator->zipIsValid($values['zip']))
             {
                 array_push($message,'Sorry zip is not valid');
             }
 
-            if (empty($dob)) 
-            {
-                array_push($message,'Sorry dob is empty');
-            }
-
-
             // Add Address
             if(count($message) === 0)
             {
-                if(addAddress($name, $email, $address, $city, $state, $zip, $dob))
+                if($addCRUD->create($values))
                 {
                     array_push($message,'Succesfully Added');
                 }
@@ -98,10 +88,10 @@
         <div class="container">
             <h3>Add an address</h3>
             <form action="#" method="post">   
-               Name: <br /><input name="name" value="<?php echo $name ?>" /> <br /><br />
-               Email: <br /><input name="email" value="<?php echo $email ?>" /> <br /><br />
-               Address: <br /><input name="address" value="<?php echo $address ?>" /> <br /><br />
-               City: <br /><input name="city" value="<?php echo $city ?>" /> <br /><br />
+               Name: <br /><input name="name" value="<?php echo $values['name'] ?>" /> <br /><br />
+               Email: <br /><input name="email" value="<?php echo $values['email'] ?>" /> <br /><br />
+               Address: <br /><input name="address" value="<?php echo $values['address'] ?>" /> <br /><br />
+               City: <br /><input name="city" value="<?php echo $values['city'] ?>" /> <br /><br />
                State: <br />
                             <select name="state" id="state">
                                 <option value="AL" id="AL">Alabama</option>
@@ -159,7 +149,7 @@
 
                             <script type="text/javascript">
                                 // Used to put the state drop down list back to the correct state
-                                var phpState = "<?php echo $state; ?>";
+                                var phpState = "<?php echo $values['state']; ?>";
                                 var ddl = document.getElementById("state");
 
                                 for(var i = 0; i < 52; i++)
@@ -172,8 +162,8 @@
 
                             </script>
 
-               Zip: <br /><input name="zip" value="<?php echo $zip ?>" /> <br /><br />
-               DOB: <br /><input type="date" name="dob" value="<?php echo $dob ?>" /> <br /><br />
+               Zip: <br /><input name="zip" value="<?php echo $values['zip'] ?>" /> <br /><br />
+               DOB: <br /><input type="date" name="dob" value="<?php echo $values['dob'] ?>" /> <br /><br />
 
                <input type="submit" value="Submit" class="btn btn-primary" />
             </form>
