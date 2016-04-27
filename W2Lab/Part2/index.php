@@ -13,7 +13,7 @@
         $addCRUD = new CRUD();
 
         $addresses = $addCRUD->readAll();
-
+        
         include './views/view-address.php';
 
         ?>

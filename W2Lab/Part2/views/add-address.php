@@ -71,6 +71,11 @@
                 array_push($message,'Sorry zip is not valid');
             }
 
+            if (empty($dob)) 
+            {
+                array_push($message,'Sorry dob is empty');
+            }
+
             // Add Address
             if(count($message) === 0)
             {
