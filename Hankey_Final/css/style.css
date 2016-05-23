@@ -1,0 +1,99 @@
+/**************	Start tag styling **************/
+a
+{
+	color: #145d9b;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #145d9b;
+	text-decoration: underline;
+}
+
+a:visited
+{
+	color: #145d9b;
+	text-decoration: none;
+}
+
+body
+{
+	font-family: Arial;
+	background-image: url(../images/bg.png);
+	margin: 0px;
+	overflow: scroll;
+}
+
+h2
+{
+	color: #145d9b;
+}
+
+hr
+{
+	border-bottom: 1px solid #145d9b;
+	margin-top: 45px;
+}
+
+/**************	Start id styling **************/
+#footer
+{
+	text-align: center;
+	color: #ffffee;
+	margin: 15px;
+}
+
+#gallery, #content
+{
+	min-height: 50px; 
+	clear: left;
+}
+
+#login
+{
+	width: 150px; 
+	float: right;
+}
+
+#memeMonth
+{
+	width: 300px;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+#memeMonth img
+{
+	width: 300px;
+}
+
+#wrapper
+{
+	width: 90%;
+	border: 1px solid transparent;
+	margin: 0 auto;
+	min-height: 700px;
+	overflow: auto;
+	padding: 15px 15px 0 15px;
+	background-image: url(../images/content.png);
+}
+
+/**************	Start class styling **************/
+.miniTitle
+{
+	text-align: center;
+	background-image: url(../images/bg.png);
+	margin: 0;
+	padding: 8px;
+	margin-bottom: 10px;
+	color: #ffffee;
+}
+
+.thumbnail
+{
+	width: 230px;
+	height: 200px;
+	float: left;
+}
